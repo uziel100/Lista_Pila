@@ -1,5 +1,6 @@
 package lista_tipo_pila;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class ClasePrincipal {
@@ -10,8 +11,8 @@ public class ClasePrincipal {
                 + "1. Registro de Alumnos\n"
                 + "2. Calificaciones\n"
                 + "3. Operacions con matrices\n"
-                //+ "4. Uso de arrayList\n"                        
-                + "4. Salir.\n\n"));
+                + "4. Ackerman\n"                        
+                + "5. Salir.\n\n"));
     }
 
     static int menuList() {
@@ -23,9 +24,8 @@ public class ClasePrincipal {
                 + "4. ¿Quien fue el ultimo alumno que se registro?\n"
                 + "5. ¿Cuantos alumnos estan registrados?\n"
                 + "6. Vaciar registro de alumnos\n"
-                + "7. Mostrar todos los alumnos\n"
-                + "8. Buscar un alumno\n"
-                + "9. Salir.\n\n"));
+                + "7. Mostrar todos los alumnos\n"                
+                + "8. Salir.\n\n"));
     }
 
     static String[] addAlumno(String[] cad) {
@@ -87,25 +87,8 @@ public class ClasePrincipal {
             case 7:
                 JOptionPane.showMessageDialog(null, pila);
                 break;
-            case 8:
-                String matricula = JOptionPane.showInputDialog(null, "Ingresa la matricula: ");
-                JOptionPane.showMessageDialog(null, pila.buscar(matricula));
-                /*if (!pila.isEmpty()) {
-                    if(!matricula.equals("") ){
-                     if (pila.buscar(matricula)) {
-                        JOptionPane.showMessageDialog(null, "El alumno con la matricula " + matricula + " si esta registrado");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No hay un alumno con la matricula " + matricula);
-                    }   
-                    }else{
-                        JOptionPane.showMessageDialog(null, "No ingreso ninguna matricula" );
-                    }                    
-                }else{
-                    JOptionPane.showMessageDialog(null, "La lista esta vacia, no hay registros por buscar");
-                }*/
-                break;
-            case 9:
-                break;
+            case 8:                
+                break;            
         }
     }
 
@@ -243,30 +226,63 @@ public class ClasePrincipal {
 
     static int menuArrayList() {
         return Integer.parseInt(JOptionPane.showInputDialog(null,
-                "1. Agregar letras\n"
-                + "2. Eliminar letras\n"
-                + "3. Agregar letra al inicio\n"
-                + "4. Cambiar posicion de un letra\n"
-                + "5. ¿Cuantas letras hay?\n"
-                + "6. Salir\n"));
+                  "1. Calcular el valor de ackerman\n"
+                + "2. Salir\n"));
     }
 
     static void optionArrayList(int opc) {
         switch (opc) {
             case 1:
+                int m = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese el primer valor"));
+                int n = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese el segundo valor"));
+                JOptionPane.showMessageDialog(null,"El valor de ackermas es de: " + ackerman(m, n)); 
                 break;
             case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
+                break;                        
         }
     }
+    
+    static int ackerman(int m, int n){
+        int veces = 0;
+        int ackerman = 0;
+        int tam = 0;
+        int i;
+        
+        ArrayList<Integer> lista = new ArrayList<>();
+        
+        lista.add(m);
+        lista.add(n);                
+        
+        while( m > 0 || n != 0 || n == 0){
+            tam = lista.size();
+            i = tam - 2;
+            m = lista.get(i);
+            n = lista.get(i + 1);
+
+            if(veces == 0 && tam == 2 && m == 0 ){
+                ackerman = (n == 0)? 1: n + 1;
+                break;
+            }else{
+                if(m == 0 && tam == 2){
+                    ackerman = n + 1;
+                    break;
+                }else if(m == 0 && n != 0){
+                    lista.set(i, n + 1);
+                    lista.remove(i + 1);
+                }else if(m > 0 && n == 0){
+                    lista.set(i,m-1);
+                    lista.set(i + 1,1);
+                }else {
+                    lista.set(i, m-1);
+                    int nuevo = lista.get(i + 1);
+                    lista.set(i+1,m);
+                    lista.add(nuevo -1);
+                }
+            }
+            veces++;
+        }        
+        return ackerman;
+    }       
 
     public static void main(String[] args) {
         int opc = 0;
@@ -279,7 +295,7 @@ public class ClasePrincipal {
                         do {
                             opc = menuList();
                             opctionList(opc, pila);
-                        } while (opc != 9 && opc != 0);
+                        } while (opc != 8);
                         break;
                     case 2:
                         Arreglo arr = new Arreglo();
@@ -296,14 +312,20 @@ public class ClasePrincipal {
                         } while (opc != 4);
                         break;
                     case 4:
-                        /*do{
+                        do{
                             opc = menuArrayList();
                             optionArrayList(opc);
-                        }while(opc != 6);*/
+                        }while(opc != 2);
+                        break;
+                    case 5:
+                        JOptionPane.showMessageDialog(null, "     Gracias por usar mi programa\n Desarrrollador principal: Uziel Meliton\n");
                         break;
                 }
             } catch (Exception e) {
             }
-        } while (opc != 4);
-    }
+        } while (opc != 5);
+    }  
+    
 }
+
+
